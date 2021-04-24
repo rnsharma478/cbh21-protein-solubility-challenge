@@ -1,4 +1,4 @@
-# Insert-Team-Name-here
+# Brute-Force
 
 This is our submission for the CBH2021 hackathon.
 

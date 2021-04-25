@@ -15,6 +15,9 @@ from Bio.PDB.PDBParser import PDBParser
 from Bio.PDB.ResidueDepth import get_surface
 from Bio.PDB.vectors import calc_dihedral
 from Bio.PDB.Structure import Structure
+from prody import *
+from Bio.SeqUtils.ProtParam import ProteinAnalysis
+from Bio.PDB.Polypeptide import PPBuilder
 import temppathlib
 import freesasa
 

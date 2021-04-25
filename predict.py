@@ -16,7 +16,7 @@ from Bio.PDB.ResidueDepth import get_surface
 from Bio.PDB.vectors import calc_dihedral
 from Bio.PDB.Structure import Structure
 import temppathlib
-
+import freesasa
 
 def predict(pdb_file: Path) -> float:
     """
@@ -39,10 +39,22 @@ def featurize(structure: Structure) -> list[Any]:
     """
     Calculates 3D ML features from the `structure`.
     """
+    structure1 = freesasa.Structure(pdbpath)
+    result = freesasa.calc(structure1)
+    area_classes = freesasa.classifyResults(result, structure1)
 
+    Total_area=[]
+    Total_area.append(result.totalArea())
+	
+    Polar_Apolar=[]
+
+    for key in area_classes:
+   # print( key, ": %.2f A2" % area_classes[key])
+        Polar_Apolar.append(area_classes[key])
     # get all the residues
     residues = [res for res in structure.get_residues()]
-
+    seq_length=[]
+    seq_length.append(len(residues))
     # calculate some random 3D features (you should be smarter here!)
     protein_length = residues[1]["CA"] - residues[-2]["CA"]
     angle = calc_dihedral(
@@ -52,7 +64,7 @@ def featurize(structure: Structure) -> list[Any]:
         residues[-2]["CA"].get_vector(),
     )
     # create the feature vector
-    features = [protein_length, angle]
+    features = [Total_area,Polar_Apolar,protein_length, seq_length, angle]
 
     return features
 
